@@ -1,7 +1,5 @@
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tracking_location_app/repository/location_service/location_hive_service.dart';
 
 import 'location_service_panel_event.dart';
 import 'location_service_panel_state.dart';
@@ -46,14 +44,10 @@ class LocationServicePanelBloc
     Emitter emit,
   ) async {
     final service = FlutterBackgroundService();
-    final SharedPreferences sp = await SharedPreferences.getInstance();
     if (await service.isRunning()) {
-      await sp.setBool("stop", true);
-      print(sp.getBool('stop'));
       service.invoke("stopService");
       emit(state.copyWith(isRunning: false));
     } else {
-      await sp.setBool("stop", false);
       await service.startService();
       emit(state.copyWith(isRunning: true));
     }
