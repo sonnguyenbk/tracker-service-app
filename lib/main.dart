@@ -15,17 +15,13 @@ import 'package:tracking_location_app/viewmodel/location_tracker/location_tracke
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocationHiveService.instance.onInit();
-  final service = FlutterBackgroundService();
-  final isBackgroundServiceRunning = await service.isRunning();
   await LocationBackgroundService.initializeService();
   runApp(
     MultiBlocProvider(providers: [
       BlocProvider(create: (context) => LocationPermissionBloc()),
       BlocProvider(create: (context) => LocationTrackerBloc()),
       BlocProvider(
-        create: (context) => LocationServicePanelBloc(
-          isRunning: isBackgroundServiceRunning,
-        ),
+        create: (context) => LocationServicePanelBloc(isRunning: false),
       ),
     ], child: const LocationTrackerApp()),
   );

@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tracking_location_app/model/process_status.dart';
+import 'package:tracking_location_app/view/locations_screen.dart';
 import 'package:tracking_location_app/viewmodel/location_permission/location_permission_bloc.dart';
 import 'package:tracking_location_app/viewmodel/location_permission/location_permission_event.dart';
 import 'package:tracking_location_app/viewmodel/location_permission/location_permission_state.dart';
@@ -74,6 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            final bloc = context.read<LocationTrackerBloc>();
+            Navigator.pushNamed(
+              context,
+              LocationsScreen.routeName,
+              arguments: bloc,
+            );
+          },
+          child: const Icon(Icons.list_alt_outlined),
         ),
       ),
     );
